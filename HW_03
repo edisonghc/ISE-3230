@@ -1,0 +1,40 @@
+#%% Question_2
+# Implementation in PULP
+from pulp import *
+pulp.pulpTestAll() # testing pulp
+
+prob = LpProblem("HW3_Q2",LpMaximize) # create an LP maximization problem
+a = LpVariable("x_1",lowBound=0) 
+b = LpVariable("x_2",lowBound=0)
+prob += 1*a + 2*b # objective function
+prob +=-2*a + 1*b <= 2
+prob += 2*a + 5*b >= 10
+prob += 1*a - 4*b <= 2
+prob # display the LP problem
+status = prob.solve() # solve with default solver
+
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+print("Total Cost = ", value(prob.objective))
+LpStatus[status]   # PULP explicitly reports unboundedness
+
+#%% Question 5
+# Implementation in PULP
+from pulp import *
+pulp.pulpTestAll() # testing pulp
+
+prob = LpProblem("HW3_Q5",LpMinimize) # create an LP maximization problem
+a = LpVariable("x_1",lowBound=0) 
+b = LpVariable("x_2",lowBound=0)
+prob +=-1*a - 2*b # objective function
+prob += 1*a + 1*b <= 16
+prob +=-1*a + 1*b <= 5
+prob += 1*a + 0*b <= 12
+prob +=-1*a + 3*b <= 16
+prob # display the LP problem
+status = prob.solve() # solve with default solver
+LpStatus[status]   # PULP also doesn NOT report existence of alternative optimal 
+
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+print("Total Cost = ", value(prob.objective))
