@@ -38,3 +38,24 @@ LpStatus[status]   # PULP also doesn NOT report existence of alternative optimal
 for v in prob.variables():
     print(v.name, "=", v.varValue)
 print("Total Cost = ", value(prob.objective))
+
+
+#%% Question 2331
+# Implementation in PULP
+from pulp import *
+pulp.pulpTestAll() # testing pulp
+
+prob = LpProblem("2331",LpMinimize) # create an LP maximization problem
+a = LpVariable("Accord",lowBound=0) 
+b = LpVariable("Civic",lowBound=0)
+prob +=-200*a - 100*b # objective function
+prob += 150*a + 60*b <= 30000
+prob += 10*a + 20*b  <= 5000
+prob += 50*a + 40*b <= 13000
+prob # display the LP problem
+status = prob.solve() # solve with default solver
+LpStatus[status]   # PULP also doesn NOT report existence of alternative optimal 
+
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+print("Total Cost = ", value(prob.objective))
